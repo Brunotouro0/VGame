@@ -2,7 +2,7 @@
 2- diminuir a velocidade d tudo
 3- aumetar mapa
 4- fazer som (bota musica)
-5- 
+5-  test git
 6- gasolina funcionar
 7- 
 

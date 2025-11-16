@@ -11,7 +11,7 @@
 #include <stdlib.h>
 
 // Game Constants
-#define PLAYER_SPEED 0.15f
+#define PLAYER_SPEED 0.08f
 #define SCREEN_WIDTH 960          // 24 characters * 40 pixels
 #define SCREEN_HEIGHT 800         // 20 characters * 40 pixels
 #define MAP_WIDTH 24

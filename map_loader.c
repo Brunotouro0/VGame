@@ -15,20 +15,21 @@
 void load_phase(GameData* game, int phase_num) {
     char filename[64];
     sprintf(filename, "sample_maps/fase%d.txt", phase_num);
-    
+
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
         printf("Error: Could not load phase file %s\n", filename);
         return;
     }
-    
+
     // Clear map
     for (int i = 0; i < MAP_HEIGHT; i++) {
         memset(game->map[i], ' ', MAP_WIDTH);
         game->map[i][MAP_WIDTH] = '\0';
     }
-    
+
     // Read map from file
+
     for (int i = 0; i < MAP_HEIGHT; i++) {
         char line[MAP_WIDTH + 2];
         if (fgets(line, sizeof(line), file) != NULL) {
@@ -40,15 +41,15 @@ void load_phase(GameData* game, int phase_num) {
             }
         }
     }
-    
+
     fclose(file);
-    
+
     // Parse enemies and fuel stations from map
     int enemy_count = 0;
     for (int i = 0; i < MAP_HEIGHT && enemy_count < MAX_ENEMIES; i++) {
         for (int j = 0; j < MAP_WIDTH && enemy_count < MAX_ENEMIES; j++) {
             char cell = game->map[i][j];
-            
+
             if (cell == 'N') {  // Ship
                 game->enemies[enemy_count].x = j;
                 game->enemies[enemy_count].y = i;
@@ -56,7 +57,7 @@ void load_phase(GameData* game, int phase_num) {
                 game->enemies[enemy_count].active = true;
                 game->enemies[enemy_count].width = 1;
                 enemy_count++;
-            } 
+            }
             else if (cell == 'X') {  // Helicopter
                 game->enemies[enemy_count].x = j;
                 game->enemies[enemy_count].y = i;
@@ -99,15 +100,15 @@ bool load_highscores(GameData* game) {
         game->num_highscores = 0;
         return false;
     }
-    
+
     fread(&game->num_highscores, sizeof(int), 1, file);
     if (game->num_highscores > MAX_HIGHSCORES) {
         game->num_highscores = MAX_HIGHSCORES;
     }
-    
+
     fread(game->highscores, sizeof(HighScore), game->num_highscores, file);
     fclose(file);
-    
+
     return true;
 }
 
@@ -120,7 +121,7 @@ void save_highscores(GameData* game) {
         printf("Error: Could not save high scores\n");
         return;
     }
-    
+
     fwrite(&game->num_highscores, sizeof(int), 1, file);
     fwrite(game->highscores, sizeof(HighScore), game->num_highscores, file);
     fclose(file);
@@ -142,12 +143,12 @@ void initialize_game(GameData* game) {
     game->paused = 0;
     game->current_name[0] = '\0';
     game->name_length = 0;
-    
+
     // Clear bullets
     for (int i = 0; i < MAX_BULLETS; i++) {
         game->bullets[i].active = false;
     }
-    
+
     // Load highscores
     load_highscores(game);
 }
@@ -160,16 +161,16 @@ void reset_level(GameData* game) {
     for (int i = 0; i < MAX_ENEMIES; i++) {
         game->enemies[i].active = false;
     }
-    
+
     // Clear bullets
     for (int i = 0; i < MAX_BULLETS; i++) {
         game->bullets[i].active = false;
     }
-    
+
     // Reset player position
     game->player.x = MAP_WIDTH / 2;
     game->player.y = MAP_HEIGHT - 2;
-    
+
     // Load the phase map
     load_phase(game, game->current_phase);
 }
@@ -180,12 +181,12 @@ void reset_level(GameData* game) {
 bool is_walkable(GameData* game, float x, float y) {
     int ix = (int)x;
     int iy = (int)y;
-    
+
     // Check bounds
     if (ix < 0 || ix >= MAP_WIDTH || iy < 0 || iy >= MAP_HEIGHT) {
         return false;
     }
-    
+
     char cell = game->map[iy][ix];
     // Can only walk on empty space (river)
     return (cell == ' ' || cell == 'A');
@@ -197,11 +198,11 @@ bool is_walkable(GameData* game, float x, float y) {
 bool is_terrain(GameData* game, float x, float y) {
     int ix = (int)x;
     int iy = (int)y;
-    
+
     if (ix < 0 || ix >= MAP_WIDTH || iy < 0 || iy >= MAP_HEIGHT) {
         return true;  // Out of bounds = collision
     }
-    
+
     char cell = game->map[iy][ix];
     return (cell == 'T');
 }
@@ -219,7 +220,7 @@ void add_highscore(GameData* game, const char* name, int score) {
         strcpy(game->highscores[MAX_HIGHSCORES - 1].name, name);
         game->highscores[MAX_HIGHSCORES - 1].score = score;
     }
-    
+
     // Sort in descending order
     for (int i = 0; i < game->num_highscores - 1; i++) {
         for (int j = i + 1; j < game->num_highscores; j++) {
@@ -230,7 +231,7 @@ void add_highscore(GameData* game, const char* name, int score) {
             }
         }
     }
-    
+
     save_highscores(game);
 }
 

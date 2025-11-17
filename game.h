@@ -1,7 +1,5 @@
 /*
  * RIVER-INF Game Header
- * Inspired by Atari 2600 River Raid (1982)
- * INF01202 - Algoritmos e Programação
  */
 
 #ifndef GAME_H
@@ -9,19 +7,43 @@
 
 #include <raylib.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <math.h>
 
-// Game Constants
-#define PLAYER_SPEED 0.1f
-#define SCREEN_WIDTH 600         // 24 characters * 40 pixels
-#define SCREEN_HEIGHT 960         // 20 characters * 40 pixels
+// --- Constantes de Física e Jogo ---
+#define BULLET_SPEED 0.3f
+#define FUEL_CONSUMPTION_RATE 0.00f
+#define MAX_RAPID_FIRE_COOLDOWN 8
+#define SHIP_POINTS 30
+#define HELICOPTER_POINTS 60
+#define BRIDGE_POINTS 200
+#define FUEL_RECHARGE_AMOUNT 30
+#define HELICOPTER_SPEED 0.08f
+#define SHIP_SPEED 0.1f
+#define SHIP_PATROL_WIDTH 4
+
+// --- Constantes de Auto-Scroll ---
+#define BASE_SPEED 0.1f
+#define SCROLL_SPEED BASE_SPEED
+#define PLAYER_HORZ_SPEED (BASE_SPEED * 2.0f)
+
+// --- Constantes de Tela e Mapa ---
+#define SCREEN_WIDTH 600
+#define SCREEN_HEIGHT 800
 #define MAP_WIDTH 24
-#define MAP_HEIGHT 40
 #define CELL_SIZE 25
+
+#define PHASE_HEIGHT 500
 #define MAX_PHASES 5
+
+#define SCREEN_GRID_HEIGHT (SCREEN_HEIGHT / CELL_SIZE)
+#define PLAYER_SCREEN_Y 28
+
 #define MAX_BULLETS 100
 #define MAX_ENEMIES 50
 #define MAX_HIGHSCORES 10
-
 
 // Entity Types
 typedef enum {
@@ -44,7 +66,7 @@ typedef enum {
 
 // Player Structure
 typedef struct {
-    float x, y;                // Position in grid coordinates
+    float x, y;
     int fuel;
     int lives;
     int score;
@@ -62,7 +84,7 @@ typedef struct {
     float x, y;
     EntityType type;
     bool active;
-    int width;                 // For bridges and fuel stations
+    int width;
 } Enemy;
 
 // High Score Structure
@@ -78,18 +100,24 @@ typedef struct {
     Enemy enemies[MAX_ENEMIES];
     Bullet bullets[MAX_BULLETS];
     int current_phase;
-    int phase_progress;        // Vertical position in phase
-    char map[MAP_HEIGHT][MAP_WIDTH + 1];
+
+    char map[PHASE_HEIGHT][MAP_WIDTH + 1];
+    int current_phase_height;
+    float camera_y;
+
+    // <-- MUDANÇA (LINHA DE CHEGADA)
+    int finish_line_y; // Guarda a coordenada Y da linha de chegada
+
     HighScore highscores[MAX_HIGHSCORES];
     int num_highscores;
     int menu_selected;
     int paused;
-    // Temporary storage for entering new high score name
     char current_name[32];
     int name_length;
 } GameData;
 
-// Function Declarations
+// --- Declarações de Funções ---
+// (O restante do arquivo não muda)
 
 // Map Loading
 void load_phase(GameData* game, int phase_num);
@@ -106,6 +134,8 @@ void handle_collisions(GameData* game);
 // Input
 void handle_input(GameData* game);
 void shoot_bullet(GameData* game);
+void handle_menu_input(GameData* game);
+void handle_gameplay_input(GameData* game);
 
 // Rendering
 void render_game(GameData* game);
@@ -116,6 +146,9 @@ void render_player(GameData* game);
 void render_enemies(GameData* game);
 void render_bullets(GameData* game);
 void render_high_score(GameData* game);
+void render_game_over(GameData* game);
+void render_level_complete(GameData* game);
+void render_game_won(GameData* game);
 
 // Utilities
 void initialize_game(GameData* game);
@@ -124,14 +157,5 @@ bool is_walkable(GameData* game, float x, float y);
 bool is_terrain(GameData* game, float x, float y);
 void add_highscore(GameData* game, const char* name, int score);
 bool is_highscore(GameData* game, int score);
-
-// Input Handling
-void handle_menu_input(GameData* game);
-void handle_gameplay_input(GameData* game);
-
-// Additional Rendering
-void render_game_over(GameData* game);
-void render_level_complete(GameData* game);
-void render_game_won (GameData* game);
 
 #endif // GAME_H

@@ -1,12 +1,8 @@
 /*
  * RIVER-INF Main Game Loop
- * INF01202 - Algoritmos e Programação
- * Based on Atari 2600 River Raid (1982) by Carol Shaw
  */
 
 #include "game.h"
-#include <stdio.h>
-#include <string.h>
 
 int main(void) {
     // Initialize window

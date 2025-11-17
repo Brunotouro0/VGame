@@ -1,0 +1,116 @@
+# depslib dependency file v1.0
+1763326910 source:c:\users\pichau\documents\github\vgame\main.c
+	"game.h"
+	<stdio.h>
+	<string.h>
+
+1763325442 c:\users\pichau\documents\github\vgame\game.h
+	<raylib.h>
+	<stdlib.h>
+
+1763325442 source:c:\users\pichau\documents\github\vgame\game_logic.c
+	"game.h"
+	<math.h>
+
+1763325442 source:c:\users\pichau\documents\github\vgame\input.c
+	"game.h"
+	<string.h>
+
+1763325442 source:c:\users\pichau\documents\github\vgame\map_loader.c
+	"game.h"
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+
+1763325442 source:c:\users\pichau\documents\github\vgame\render.c
+	"game.h"
+	<stdio.h>
+
+1763328627 c:\raylib\w64devkit\x86_64-w64-mingw32\include\raylib.h
+	<stdarg.h>
+	<stdbool.h>
+
+1763328627 c:\raylib\w64devkit\x86_64-w64-mingw32\include\stdarg.h
+	<_mingw_stdarg.h>
+
+1763328628 c:\raylib\w64devkit\x86_64-w64-mingw32\include\_mingw_stdarg.h
+	<vadefs.h>
+
+1763328628 c:\raylib\w64devkit\x86_64-w64-mingw32\include\vadefs.h
+	<_mingw.h>
+
+1763328628 c:\raylib\w64devkit\x86_64-w64-mingw32\include\_mingw.h
+	"_mingw_mac.h"
+	"_mingw_secapi.h"
+	"_cygwin.h"
+	<vadefs.h>
+	"sdks/_mingw_ddk.h"
+
+1763328628 c:\raylib\w64devkit\x86_64-w64-mingw32\include\_mingw_mac.h
+
+1763328628 c:\raylib\w64devkit\x86_64-w64-mingw32\include\_mingw_secapi.h
+
+1763328628 c:\raylib\w64devkit\x86_64-w64-mingw32\include\_cygwin.h
+	<stddef.h>
+
+1763328627 c:\raylib\w64devkit\x86_64-w64-mingw32\include\stddef.h
+	<crtdefs.h>
+
+1763328626 c:\raylib\w64devkit\x86_64-w64-mingw32\include\crtdefs.h
+	<corecrt.h>
+
+1763328626 c:\raylib\w64devkit\x86_64-w64-mingw32\include\corecrt.h
+	<_mingw.h>
+	<winapifamily.h>
+
+1763328628 c:\raylib\w64devkit\x86_64-w64-mingw32\include\winapifamily.h
+
+1763328627 c:\raylib\w64devkit\x86_64-w64-mingw32\include\sdks\_mingw_ddk.h
+
+1763328627 c:\raylib\w64devkit\x86_64-w64-mingw32\include\stdlib.h
+	<corecrt.h>
+	<corecrt_wstdlib.h>
+	<limits.h>
+	<sec_api/stdlib_s.h>
+	<malloc.h>
+
+1763328626 c:\raylib\w64devkit\x86_64-w64-mingw32\include\corecrt_wstdlib.h
+	<corecrt.h>
+
+1763328627 c:\raylib\w64devkit\x86_64-w64-mingw32\include\limits.h
+	<crtdefs.h>
+
+1763328627 c:\raylib\w64devkit\x86_64-w64-mingw32\include\sec_api\stdlib_s.h
+	<stdlib.h>
+
+1763328627 c:\raylib\w64devkit\x86_64-w64-mingw32\include\malloc.h
+	<crtdefs.h>
+	<mm_malloc.h>
+
+1763328627 c:\raylib\w64devkit\x86_64-w64-mingw32\include\math.h
+	<crtdefs.h>
+
+1763328627 c:\raylib\w64devkit\x86_64-w64-mingw32\include\string.h
+	<crtdefs.h>
+	<sec_api/string_s.h>
+
+1763328627 c:\raylib\w64devkit\x86_64-w64-mingw32\include\sec_api\string_s.h
+	<string.h>
+
+1763328627 c:\raylib\w64devkit\x86_64-w64-mingw32\include\stdio.h
+	<corecrt_stdio_config.h>
+	<_mingw_off_t.h>
+	<swprintf.inl>
+	<sec_api/stdio_s.h>
+
+1763328626 c:\raylib\w64devkit\x86_64-w64-mingw32\include\corecrt_stdio_config.h
+	<corecrt.h>
+
+1763328628 c:\raylib\w64devkit\x86_64-w64-mingw32\include\_mingw_off_t.h
+
+1763328627 c:\raylib\w64devkit\x86_64-w64-mingw32\include\swprintf.inl
+	<vadefs.h>
+
+1763328627 c:\raylib\w64devkit\x86_64-w64-mingw32\include\sec_api\stdio_s.h
+	<stdio.h>
+

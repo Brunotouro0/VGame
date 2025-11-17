@@ -1,0 +1,20 @@
+TTTTTTTTTTTTTTTTTTTTTTTT
+T                      T
+T      X               T
+T                      T
+T    N   N   N         T
+T                      T
+T   GGGG               T
+T                      T
+T    X     X           T
+T                      T
+T  N   N   N   N       T
+T                      T
+T       GGGG           T
+T                      T
+T      X   X           T
+T                      T
+T  N   N   N   N   N   T
+T                      T
+T       PPPP           T
+TTTTTTTTTTTTTTTTTTTTTTTT

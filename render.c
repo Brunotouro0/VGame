@@ -18,6 +18,7 @@ void render_game(GameData* game) {
             break;
 
         case STATE_PLAYING:
+
         case STATE_PAUSED:
             render_map(game);
             render_enemies(game);
@@ -48,6 +49,10 @@ void render_game(GameData* game) {
             render_level_complete(game);
             break;
 
+        case STATE_GAME_WON:
+        render_game_won(game);
+            break;
+
         default:
             break;
     }
@@ -59,15 +64,14 @@ void render_game(GameData* game) {
  * Render main menu
  */
 void render_menu(GameData* game) {
-    DrawText("RIVER-INF", SCREEN_WIDTH/2 - 100, 80, 60, YELLOW);
-    DrawText("Inspired by River Raid (1982)", SCREEN_WIDTH/2 - 150, 160, 20, LIGHTGRAY);
+    DrawText("RIVER-INF", SCREEN_WIDTH/2 - 165, 80, 60, YELLOW);
 
     // Draw menu options
     Color option1_color = (game->menu_selected == 0) ? YELLOW : WHITE;
     Color option2_color = (game->menu_selected == 1) ? YELLOW : WHITE;
 
-    DrawText("START GAME", SCREEN_WIDTH/2 - 80, 300, 30, option1_color);
-    DrawText("QUIT", SCREEN_WIDTH/2 - 50, 360, 30, option2_color);
+    DrawText("NOVO JOGO", SCREEN_WIDTH/2 - 80, 300, 30, option1_color);
+    DrawText("SAIR", SCREEN_WIDTH/2 - 50, 360, 30, option2_color);
 
     // Draw high scores
     DrawText("RECORDES:", 50, 150, 25, LIGHTGRAY);
@@ -216,10 +220,10 @@ void render_game_over(GameData* game) {
     DrawText(final_score, SCREEN_WIDTH/2 - 120, SCREEN_HEIGHT/2 + 20, 30, YELLOW);
 
     if (is_highscore(game, game->player.score)) {
-        DrawText("NEW HIGH SCORE!", SCREEN_WIDTH/2 - 120, SCREEN_HEIGHT/2 + 80, 30, LIME);
+        DrawText("NOVO RECORDE!", SCREEN_WIDTH/2 - 120, SCREEN_HEIGHT/2 + 80, 30, LIME);
     }
 
-    DrawText("Press ENTER to return to menu", SCREEN_WIDTH/2 - 150,
+    DrawText("Aperte ENTER para voltar ao menu", SCREEN_WIDTH/2 - 150,
             SCREEN_HEIGHT - 50, 20, WHITE);
 }
 
@@ -232,7 +236,7 @@ void render_level_complete(GameData* game) {
     DrawText("LEVEL COMPLETE!", SCREEN_WIDTH/2 - 150, SCREEN_HEIGHT/2 - 60, 50, GREEN);
 
     char level_text[64];
-    sprintf(level_text, "Next: Phase %d", game->current_phase + 1);
+    sprintf(level_text, "Next: Phase %d", game->current_phase);
     DrawText(level_text, SCREEN_WIDTH/2 - 80, SCREEN_HEIGHT/2 + 20, 30, YELLOW);
 
     DrawText("Press ENTER to continue", SCREEN_WIDTH/2 - 130,
@@ -244,14 +248,42 @@ void render_level_complete(GameData* game) {
  */
 void render_high_score(GameData* game) {
     DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, (Color){0, 0, 0, 200});
-    DrawText("NEW HIGH SCORE!", SCREEN_WIDTH/2 - 140, SCREEN_HEIGHT/2 - 100, 40, LIME);
+    DrawText("NOVO RECORDE!", SCREEN_WIDTH/2 - 140, SCREEN_HEIGHT/2 - 100, 40, LIME);
 
     char score_text[64];
-    sprintf(score_text, "SCORE: %d", game->player.score);
+    sprintf(score_text, "PONTUACAO: %d", game->player.score);
     DrawText(score_text, SCREEN_WIDTH/2 - 80, SCREEN_HEIGHT/2 - 40, 24, YELLOW);
 
-    DrawText("Enter your name (max 31 chars):", SCREEN_WIDTH/2 - 180, SCREEN_HEIGHT/2, 20, WHITE);
+    DrawText("DIGITE SEU NOME: (max 31 letras):", SCREEN_WIDTH/2 - 180, SCREEN_HEIGHT/2, 20, WHITE);
     DrawText(game->current_name, SCREEN_WIDTH/2 - 180, SCREEN_HEIGHT/2 + 30, 24, WHITE);
 
-    DrawText("Press ENTER to confirm, BACKSPACE to edit, ESC to cancel", SCREEN_WIDTH/2 - 260, SCREEN_HEIGHT/2 + 80, 14, GRAY);
+    DrawText("Pressione ENTER para confirmar, BACKSPACE para editar, ESC para cancelar.", SCREEN_WIDTH/2 - 260, SCREEN_HEIGHT/2 + 80, 14, GRAY);
+}
+// Cole esta função no seu arquivo .c de renderização
+void render_game_won(GameData* game) {
+    // Desenha o fundo (pode usar o render_map ou uma cor sólida)
+    ClearBackground(BLACK);
+
+    // Calcula o centro da tela
+    int screen_width = GetScreenWidth();
+    int screen_height = GetScreenHeight();
+
+    // Mensagem de Parabéns
+    const char* msg1 = "PARABENS!";
+    int fontSize1 = 60;
+    int textWidth1 = MeasureText(msg1, fontSize1);
+    DrawText(msg1, (screen_width - textWidth1) / 2, screen_height / 2 - 80, fontSize1, GREEN);
+
+    // Mensagem de Pontuação
+    char score_msg[100];
+    sprintf(score_msg, "VOCE SALVOU O RIO!");
+    int fontSize2 = 30;
+    int textWidth2 = MeasureText(score_msg, fontSize2);
+    DrawText(score_msg, (screen_width - textWidth2) / 2, screen_height / 2 + 10, fontSize2, WHITE);
+
+    // Instrução
+    const char* msg3 = "Pressione ENTER para voltar ao Menu";
+    int fontSize3 = 20;
+    int textWidth3 = MeasureText(msg3, fontSize3);
+    DrawText(msg3, (screen_width - textWidth3) / 2, screen_height - 60, fontSize3, GRAY);
 }

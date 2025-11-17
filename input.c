@@ -19,7 +19,7 @@ void handle_input(GameData* game) {
             exit(0);
         }
     }
-    
+
     switch (game->state) {
         case STATE_MENU:
             handle_menu_input(game);
@@ -27,13 +27,13 @@ void handle_input(GameData* game) {
         case STATE_PLAYING:
             handle_gameplay_input(game);
             break;
-        
+
         case STATE_PAUSED:
             if (IsKeyPressed(KEY_ENTER)) {
                 game->paused = 0;
             }
             break;
-        
+
         case STATE_GAME_OVER:
             if (IsKeyPressed(KEY_ENTER)) {
                 // If player's score qualifies, go to name-entry state
@@ -85,14 +85,25 @@ void handle_input(GameData* game) {
                 }
             }
             break;
-        
+
         case STATE_LEVEL_COMPLETE:
             if (IsKeyPressed(KEY_ENTER)) {
                 reset_level(game);
                 game->state = STATE_PLAYING;
             }
             break;
-        
+            case STATE_GAME_WON:
+        if (IsKeyPressed(KEY_ENTER)) {
+            game->state = STATE_MENU;
+            game->menu_selected = 0;
+            // Reseta o jogo para a fase 1
+            game->current_phase = 1;
+            initialize_game(game);
+        }
+        break;
+
+
+
         default:
             break;
     }
@@ -108,14 +119,14 @@ void handle_menu_input(GameData* game) {
             game->menu_selected = 1;  // Wrap around
         }
     }
-    
+
     if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) {
         game->menu_selected++;
         if (game->menu_selected > 1) {
             game->menu_selected = 0;  // Wrap around
         }
     }
-    
+
     if (IsKeyPressed(KEY_ENTER)) {
         if (game->menu_selected == 0) {
             // Start game
@@ -140,22 +151,22 @@ void handle_gameplay_input(GameData* game) {
     if (IsKeyPressed(KEY_ENTER)) {
         game->paused = !game->paused;
     }
-    
+
     // Movement left
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) {
         game->player.x -= PLAYER_SPEED * 2;
     }
-    
+
     // Movement right
     if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) {
         game->player.x += PLAYER_SPEED * 2;
     }
-    
+
     // Shoot
     if (IsKeyPressed(KEY_K) || IsKeyPressed(KEY_SPACE)) {
         shoot_bullet(game);
     }
-    
+
     // Restart level
     if (IsKeyPressed(KEY_R)) {
         reset_level(game);

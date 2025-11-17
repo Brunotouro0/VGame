@@ -1,20 +1,40 @@
-TTTTTTTTT       TTTTTTTT
-TTTTTTTT   x      TTTTTT
-TTTTTTT            TTTTT
-TTTTTT             TTTTT
-TTTTTT         x   TTTTT
-TTTTTTT            TTTTT
+TTTTTTTTTT       TTTTTTT
+TTTTTTTTTT       TTTTTTT
 TTTTTTTT         TTTTTTT
-TTTTTTTTT       TTTTTTTT
-TTTTTTTTT   T    TTTTTTT
-TTTTTTT     TTT   TTTTTT
-TTTTTT   X TTTTTT  TTTTT
-TTTTTT    TTTTTTT   TTTT
-TTTTT       TTTT     TTT
-TTTTT             X TTTT
-TTTTT               TTTT
-TTTTT     X         TTTT
-TTTTTT              TTTT
+TTTTTT           TTTTTTT
+TTTTT            TTTTTTT
+TTTTT    GGGG    TTTTTTT
+TTT              TTTTTTT
+TTT      TTTTT   TTTTTTT
+TTT      TTTTT   TTTTTTT
+TTTTTT   TTTTT     TTTTT
+TTTTTT             TTTTT
 TTTTTTT            TTTTT
-TTTTTTTTT         TTTTTT
-TTTTTTTTTT      TTTTTTTT
+TTTTT              TTTTT
+TTTTT              TTTTT
+TTT          TTTT    TTT
+TTT                  TTT
+TTTTTT               TTT
+TTTTTTT              TTT
+TTTTTTT              TTT
+TTTTTT               TTT
+TTTTTTTTTT       TTTTTTT
+TTTTTTTTTT       TTTTTTT
+TTTTTTTT         TTTTTTT
+TTTTTT           TTTTTTT
+TTTTT            TTTTTTT
+TTTTT    GGGG    TTTTTTT
+TTT              TTTTTTT
+TTT      TTTTT   TTTTTTT
+TTT      TTTTT   TTTTTTT
+TTTTTT   TTTTT     TTTTT
+TTTTTT             TTTTT
+TTTTTTT            TTTTT
+TTTTT              TTTTT
+TTTTT              TTTTT
+TTT          TTTT    TTT
+TTT                  TTT
+TTTTTT               TTT
+TTTTTTT              TTT
+TTTTTTT              TTT
+TTTTTT               TTT

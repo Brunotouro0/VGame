@@ -11,16 +11,17 @@
 #include <stdlib.h>
 
 // Game Constants
-#define PLAYER_SPEED 0.08f
-#define SCREEN_WIDTH 960          // 24 characters * 40 pixels
-#define SCREEN_HEIGHT 800         // 20 characters * 40 pixels
+#define PLAYER_SPEED 0.1f
+#define SCREEN_WIDTH 600         // 24 characters * 40 pixels
+#define SCREEN_HEIGHT 960         // 20 characters * 40 pixels
 #define MAP_WIDTH 24
-#define MAP_HEIGHT 20
-#define CELL_SIZE 40
+#define MAP_HEIGHT 40
+#define CELL_SIZE 25
 #define MAX_PHASES 5
 #define MAX_BULLETS 100
 #define MAX_ENEMIES 50
 #define MAX_HIGHSCORES 10
+
 
 // Entity Types
 typedef enum {
@@ -37,7 +38,8 @@ typedef enum {
     STATE_PAUSED,
     STATE_GAME_OVER,
     STATE_LEVEL_COMPLETE,
-    STATE_HIGH_SCORE
+    STATE_HIGH_SCORE,
+    STATE_GAME_WON
 } GameState;
 
 // Player Structure
@@ -130,5 +132,6 @@ void handle_gameplay_input(GameData* game);
 // Additional Rendering
 void render_game_over(GameData* game);
 void render_level_complete(GameData* game);
+void render_game_won (GameData* game);
 
 #endif // GAME_H

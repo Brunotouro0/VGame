@@ -1,20 +1,40 @@
-TTTTTTTTTTTTTTTTTTTTTTTT
-T                      T
-T      X               T
-T                      T
-T    N   N   N         T
-T                      T
-T   GGGG               T
-T                      T
-T    X     X           T
-T                      T
-T  N   N   N   N       T
-T                      T
-T       GGGG           T
-T                      T
-T      X   X           T
-T                      T
-T  N   N   N   N   N   T
-T                      T
-T       PPPP           T
-TTTTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTT             TTT
+TTTTTTTT             TTT
+TTTTTT               TTT
+TTTTT                TTT
+TTTT                 TTT
+TTTT                 TTT
+TTT                  TTT
+TTT                  TTT
+TTT    GGGG          TTT
+TTTT                 TTT
+TTTTT                TTT
+TTTTTT               TTT
+TTTTTT               TTT
+TTTTT                TTT
+TTT                  TTT
+TTT                  TTT
+TTT                  TTT
+TTT                  TTT
+TTT                  TTT
+TTTTTT               TTT
+TTTTTTTT             TTT
+TTTTTTTT             TTT
+TTTTTT               TTT
+TTTTT                TTT
+TTTT                 TTT
+TTTT                 TTT
+TTT                  TTT
+TTT                  TTT
+TTT    GGGG          TTT
+TTTT                 TTT
+TTTTT                TTT
+TTTTTT               TTT
+TTTTTT               TTT
+TTTTT                TTT
+TTT                  TTT
+TTT                  TTT
+TTT                  TTT
+TTT                  TTT
+TTT                  TTT
+TTTTTT               TTT

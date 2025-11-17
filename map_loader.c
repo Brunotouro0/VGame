@@ -31,16 +31,16 @@ void load_phase(GameData* game, int phase_num) {
     // Read map from file
 
     for (int i = 0; i < MAP_HEIGHT; i++) {
-        char line[MAP_WIDTH + 2];
-        if (fgets(line, sizeof(line), file) != NULL) {
-            strncpy(game->map[i], line, MAP_WIDTH);
-            game->map[i][MAP_WIDTH] = '\0';
-            // Remove newline if present
-            if (game->map[i][strlen(game->map[i]) - 1] == '\n') {
-                game->map[i][strlen(game->map[i]) - 1] = '\0';
-            }
-        }
+    // Lê diretamente no destino, deixando espaço para \n e \0
+    if (fgets(game->map[i], MAP_WIDTH + 2, file) != NULL) {
+        // Remove o \n, não importa onde ele esteja
+        game->map[i][strcspn(game->map[i], "\n")] = '\0';
+    } else {
+        // Se a leitura falhar (ex: fim do arquivo), preenche com espaços
+        memset(game->map[i], ' ', MAP_WIDTH);
+        game->map[i][MAP_WIDTH] = '\0';
     }
+}
 
     fclose(file);
 
@@ -86,6 +86,7 @@ void load_phase(GameData* game, int phase_num) {
                 }
                 game->enemies[enemy_count].width = width;
                 enemy_count++;
+                j+= width -1;
             }
         }
     }
@@ -199,8 +200,14 @@ bool is_terrain(GameData* game, float x, float y) {
     int ix = (int)x;
     int iy = (int)y;
 
-    if (ix < 0 || ix >= MAP_WIDTH || iy < 0 || iy >= MAP_HEIGHT) {
-        return true;  // Out of bounds = collision
+    // Sair pelas laterais ou pelo fundo AINDA é colisão
+    if (ix < 0 || ix >= MAP_WIDTH || iy >= MAP_HEIGHT) {
+        return true;
+    }
+
+    // Sair pelo topo NÃO é colisão, é a condição de vitória
+    if (iy < 0) {
+        return false;
     }
 
     char cell = game->map[iy][ix];

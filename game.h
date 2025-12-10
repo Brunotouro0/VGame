@@ -1,9 +1,3 @@
-/*
- * RIVER-INF Game Header
- */
-
- //roblox
-
 #ifndef GAME_H
 #define GAME_H
 
@@ -16,19 +10,25 @@
 
 // --- Constantes de Física e Jogo ---
 #define BULLET_SPEED 0.3f
-#define FUEL_CONSUMPTION_RATE 0.00f
+#define FUEL_CONSUMPTION_RATE 0.05f
+#define FUEL_RECHARGE_AMOUNT 30.0f
 #define MAX_RAPID_FIRE_COOLDOWN 8
+
+// Pontuações
 #define SHIP_POINTS 30
 #define HELICOPTER_POINTS 60
 #define BRIDGE_POINTS 200
-#define FUEL_RECHARGE_AMOUNT 30
-#define HELICOPTER_SPEED 0.08f
-#define SHIP_SPEED 0.1f
+
+// Movimento dos Inimigos
+#define HELICOPTER_SPEED 0.10f
+#define SHIP_SPEED 0.03f
 #define SHIP_PATROL_WIDTH 4
 
-// --- Constantes de Auto-Scroll ---
+// --- Constantes de Auto-Scroll e Velocidade ---
 #define BASE_SPEED 0.1f
-#define SCROLL_SPEED BASE_SPEED
+#define SCROLL_SPEED_NORMAL BASE_SPEED
+#define SCROLL_SPEED_FAST (BASE_SPEED * 2.5f)
+#define SCROLL_SPEED_SLOW (BASE_SPEED * 0.5f)
 #define PLAYER_HORZ_SPEED (BASE_SPEED * 2.0f)
 
 // --- Constantes de Tela e Mapa ---
@@ -43,8 +43,9 @@
 #define SCREEN_GRID_HEIGHT (SCREEN_HEIGHT / CELL_SIZE)
 #define PLAYER_SCREEN_Y 28
 
-#define MAX_BULLETS 100
-#define MAX_ENEMIES 50
+// Limites
+#define MAX_BULLETS 200
+#define MAX_ENEMIES 300
 #define MAX_HIGHSCORES 10
 
 // Entity Types
@@ -69,7 +70,7 @@ typedef enum {
 // Player Structure
 typedef struct {
     float x, y;
-    int fuel;
+    float fuel;
     int lives;
     int score;
     int rapid_fire_cooldown;
@@ -107,8 +108,24 @@ typedef struct {
     int current_phase_height;
     float camera_y;
 
-    // <-- MUDANÇA (LINHA DE CHEGADA)
-    int finish_line_y; // Guarda a coordenada Y da linha de chegada
+    // Variáveis de controle
+    float current_scroll_speed;
+    int finish_line_y;
+
+    // --- SPRITES (TEXTURAS) ---
+    Texture2D texPlayer;
+    Texture2D texShip;
+    Texture2D texHeli;
+    Texture2D texFuel;
+    Texture2D texBridge;
+    Texture2D texBullet;
+
+    // --- FLAGS DE ÁUDIO ---
+    bool trigger_shoot_sound;
+    bool trigger_music_start;
+    bool trigger_music_stop;
+    bool trigger_gameover_sound;
+    bool trigger_gamewon_sound; // --- NOVO: Flag para som de Vitória ---
 
     HighScore highscores[MAX_HIGHSCORES];
     int num_highscores;
@@ -119,7 +136,6 @@ typedef struct {
 } GameData;
 
 // --- Declarações de Funções ---
-// (O restante do arquivo não muda)
 
 // Map Loading
 void load_phase(GameData* game, int phase_num);

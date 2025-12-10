@@ -34,54 +34,106 @@ TTTTTTTTTT       TTTTTTT
 TTTTTTTTTT       TTTTTTT
 TTTTTTTTTTLLLLLLLTTTTTTT
 TTTTTT           TTTTTTT
-TTTTT            TTTTTTT
 TTTTT    GGGG    TTTTTTT
-TTT              TTTTTTT
+TTTTT            TTTTTTT
+TTT     N        TTTTTTT
 TTT      TTTTT   TTTTTTT
 TTT      TTTTT   TTTTTTT
 TTTTTT   TTTTT     TTTTT
 TTTTTT             TTTTT
+TTTTTTT      N     TTTTT
+TTTTT              TTTTT
+TTTTT  GGGG        TTTTT
+TTT          TT      TTT
+TTT         TTT N    TTT
+TTTTTTPPPPPTTTT      TTT
+TTTTTT      TTTTT    TTT
+TTTTTT       TTTTT   TTT
+TTTTTT               TTT
+TTTTTTT             TTTT
+TTTTTTTT      GGGG TTTTT
+TTTTTTTT           TTTTT
+TTTTTT            TTTTTT
+TTTTT            TTTTTTT
+TTTTT  GGGG      TTTTTTT
+TTT         T    TTTTTTT
+TTT      TTTT    TTTTTTT
+TTT      TTTT    TTTTTTT
+TTTT     TTTT      TTTTT
+TTTTT     TT       TTTTT
+TTTTT              TTTTT
+TTTTT  GGGG        TTTTT
+TTTTT              TTTTT
+TTT         TTT   X  TTT
+TTT  N     TTTT      TTT
+TTTTTT       TTT     TTT
+TTTTTTT              TTT
+TTTTTTT              TTT
+TTTTTT               TTT
+TTTTT   GGGG       TTTTT
+TTT                TTTTT
+TTT  N    TTTTPPPPPTTTTT
+TTT      TTTTT     TTTTT
+TTTTTT   TTTT      TTTTT
+TTTTTT             TTTTT
+TTTTTT       GGGG  TTTTT
+TTTTT              TTTTT
+TTTTT         TTTTTTTTTT
+TTT          TTTTTTTTTTT
+TTT             TTTTTTTT
+TTTTTT            TTTTTT
+TTTTTTT           TTTTTT
 TTTTTTT            TTTTT
-TTTTT              TTTTT
-TTTTT              TTTTT
-TTT          TTTT    TTT
-TTT                  TTT
-TTTTTT               TTT
-TTTTTTT              TTT
-TTTTTTT              TTT
-TTTTTT               TTT
-TTTTTTTTTT       TTTTTTT
-TTTTTTTTTT       TTTTTTT
-TTTTTTTT         TTTTTTT
+TTTTTT              TTTT
 TTTTTT           TTTTTTT
 TTTTT            TTTTTTT
 TTTTT    GGGG    TTTTTTT
-TTT              TTTTTTT
+TTT     N        TTTTTTT
+TTT       TTT    TTTTTTT
+TTT       TTT    TTTTTTT
+TTTTTT     TT      TTTTT
+TTTTTT             TTTTT
+TTTTTTT  GGGG      TTTTT
+TTTTT              TTTTT
+TTTTT              TTTTT
+TTT          TT      TTT
+TTTTT       TTT N    TTT
+TTTTTTPPPPPTTTT      TTT
+TTTTTT      TTTTT    TTT
+TTTTT        TTTT    TTT
+TTTTTT               TTT
+TTTTTTTT            TTTT
+TTTTTTTTT     GGGG TTTTT
+TTTTTTTT           TTTTT
+TTTTTT            TTTTTT
+TTTTT            TTTTTTT
+TTTTT   GGGG     TTTTTTT
+TTT         TT   TTTTTTT
 TTT      TTTTT   TTTTTTT
 TTT      TTTTT   TTTTTTT
 TTTTTT   TTTTT     TTTTT
-TTTTTT             TTTTT
-TTTTTTT            TTTTT
+TTTTTT    TT       TTTTT
+TTTTTTT     N      TTTTT
+TTTTT  GGGG        TTTTT
 TTTTT              TTTTT
-TTTTT              TTTTT
-TTT          TTTT    TTT
-TTT                  TTT
-TTTTTT               TTT
+TTT          TT      TTT
+TTT  N     TTTT      TTT
+TTTTTT       TTT     TTT
 TTTTTTT              TTT
 TTTTTTT              TTT
 TTTTTT               TTT
-TTTTT    GGGG    TTTTTTT
+TTTTT  GGGG      TTTTTTT
+TTT    X         TTTTTTT
 TTT              TTTTTTT
-TTT      TTTTT   TTTTTTT
-TTT      TTTTT   TTTTTTT
-TTTTTT   TTTTT     TTTTT
+TTT              TTTTTTT
 TTTTTT             TTTTT
+TTTTTT             TTTTT
+TTTTTT       GGGG  TTTTT
+TTTTT              TTTTT
+TTTTT            TTTTTTT
+TTT             TTTTTTTT
+TTT              TTTTTTT
+TTTTTT            TTTTTT
+TTTTTTT           TTTTTT
 TTTTTTT            TTTTT
-TTTTT              TTTTT
-TTTTT              TTTTT
-TTT          TTTT    TTT
-TTT                  TTT
-TTTTTT               TTT
-TTTTTTT              TTT
-TTTTTTT              TTT
-TTTTTT               TTT
+TTTTTT              TTTT

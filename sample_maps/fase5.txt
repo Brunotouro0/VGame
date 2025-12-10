@@ -36,8 +36,8 @@ TTTTT            TTTTTTT
 TTTTT     TTT    TTTTTTT
 TTT     TTTTT      TTTTT
 TTT       TTTTT    TTTTT
-TTTTTT   TTTT      TTTTT
-TTTTTT    TTT      TTTTT
+TTTTTTPPPTTTT      TTTTT
+TTTTTT    TTT   N  TTTTT
 TTT       TTT      TTTTT
 TTTTTT            TTTTTT
 TTTTTT  TTTTT      TTTTT
@@ -50,12 +50,49 @@ TTT     TTTTTTTTT    TTT
 TTT       TTTTTT     TTT
 TTTTT                TTT
 TTTTTT             TTTTT
-TTTTTT             TTTTT
-TTTTT             TTTTTT
+TTTTTT   N         TTTTT
+TTTTT           X TTTTTT
 TTTTT   TTT       TTTTTT
-TTTTT   TTT      TTTTTTT
+TTTTT   TTTPPPPPPTTTTTTT
 TTT     TTTTT      TTTTT
 TTT      TTTTT     TTTTT
+TTTTTT   TTTT      TTTTT
+TTTTTT   TTTT      TTTTT
+TTTTTT    TTT      TTTTT
+TTTTTT           TTTTTTT
+TTTTTT  TTTTT    TTTTTTT
+TTTTT   TTTTT    TTTTTTT
+TTTTT            TTTTTTT
+TTT                  TTT
+TTT       N    X     TTT
+TTT                  TTT
+TTT                  TTT
+TTT           N      TTT
+TTTTTTT              TTT
+TTTTT            TTTTTTT
+TTTTT     TTT    TTTTTTT
+TTT     TTTTT      TTTTT
+TTT       TTTTT    TTTTT
+TTTTTT   TTTT      TTTTT
+TTTTTT    TTT      TTTTT
+TTT       TTT      TTTTT
+TTTTTT            TTTTTT
+TTTTTTPPTTTTT      TTTTT
+TTTTT   TTTTT      TTTTT
+TTTTT   TTTTT    X TTTTT
+TTT     TTTTTTT      TTT
+TTT     TTTTTTT      TTT
+TTT     TTTTTTTTT    TTT
+TTT     TTTTTTTTT    TTT
+TTT       TTTTTT     TTT
+TTTTT                TTT
+TTTTTT      N      TTTTT
+TTTTTT             TTTTT
+TTTTT             TTTTTT
+TTTTT N TTT       TTTTTT
+TTTTT   TTT      TTTTTTT
+TTT     TTTTT      TTTTT
+TTT      TTTTTPPPPPTTTTT
 TTTTTT   TTTT      TTTTT
 TTTTTT   TTTT      TTTTT
 TTTTTT    TTT      TTTTT
@@ -69,6 +106,7 @@ TTT                  TTT
 TTT                  TTT
 TTT                  TTT
 TTTTTTT              TTT
+TTTTTTT              TTT
 TTTTT            TTTTTTT
 TTTTT     TTT    TTTTTTT
 TTT     TTTTT      TTTTT
@@ -77,22 +115,22 @@ TTTTTT   TTTT      TTTTT
 TTTTTT    TTT      TTTTT
 TTT       TTT      TTTTT
 TTTTTT            TTTTTT
-TTTTTT  TTTTT      TTTTT
+TTTTTTPPTTTTT      TTTTT
 TTTTT   TTTTT      TTTTT
-TTTTT   TTTTT      TTTTT
+TTTTT   TTTTT    X TTTTT
 TTT     TTTTTTT      TTT
 TTT     TTTTTTT      TTT
 TTT     TTTTTTTTT    TTT
 TTT     TTTTTTTTT    TTT
 TTT       TTTTTT     TTT
 TTTTT                TTT
-TTTTTT             TTTTT
+TTTTTT      N      TTTTT
 TTTTTT             TTTTT
 TTTTT             TTTTTT
-TTTTT   TTT       TTTTTT
+TTTTT N TTT       TTTTTT
 TTTTT   TTT      TTTTTTT
 TTT     TTTTT      TTTTT
-TTT      TTTTT     TTTTT
+TTT      TTTTTPPPPPTTTTT
 TTTTTT   TTTT      TTTTT
 TTTTTT   TTTT      TTTTT
 TTTTTT    TTT      TTTTT

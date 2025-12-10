@@ -1,14 +1,11 @@
-/*
- * Game Logic Implementation
- */
-
 #include "game.h"
 
 void update_game(GameData* game) {
     if (game->state == STATE_PLAYING) {
         if (!game->paused) {
 
-            game->camera_y -= SCROLL_SPEED;
+            // Scroll controlado pela velocidade
+            game->camera_y -= game->current_scroll_speed;
 
             update_player(game);
             update_enemies(game);
@@ -19,49 +16,35 @@ void update_game(GameData* game) {
                 game->player.lives--;
                 if (game->player.lives <= 0) {
                     game->state = STATE_GAME_OVER;
+                    game->trigger_music_stop = true;
+                    game->trigger_gameover_sound = true;
                 } else {
                     reset_level(game);
-                    game->player.fuel = 100;
+                    game->player.fuel = 100.0f;
                 }
             }
 
-            // <-- MUDANÇA (LINHA DE CHEGADA)
-            // Em vez de checar se a câmera chegou ao topo (camera_y < 0),
-            // checamos se o jogador (na base da câmera) passou da 'finish_line_y'.
             if (game->player.y < game->finish_line_y) {
-
                 if (game->current_phase == MAX_PHASES) {
                     game->state = STATE_GAME_WON;
+                    game->trigger_music_stop = true;
+                    game->trigger_gamewon_sound = true; // --- NOVO: Ativa o som da vitória ---
                 } else {
                     game->current_phase++;
                     game->state = STATE_LEVEL_COMPLETE;
                 }
             }
-            // FIM DA MUDANÇA
         }
     }
 }
 
-
 void update_player(GameData* game) {
     game->player.fuel -= FUEL_CONSUMPTION_RATE;
-
     game->player.y = game->camera_y + PLAYER_SCREEN_Y;
 
-    // Clamp position (X)
-    if (game->player.x <= 0) {
-        game->player.x = 0;
-    }
-    if (game->player.x >= MAP_WIDTH) {
-        game->player.x = MAP_WIDTH - 1;
-    }
-
-    // Limite de Y baseado no mapa longo
-    if (game->player.y >= game->current_phase_height - 1) {
-        game->player.y = game->current_phase_height - 1;
-    }
+    if (game->player.x <= 0) game->player.x = 0;
+    if (game->player.x >= MAP_WIDTH - 1) game->player.x = MAP_WIDTH - 1;
 }
-
 
 void update_bullets(GameData* game) {
     for (int i = 0; i < MAX_BULLETS; i++) {
@@ -72,36 +55,26 @@ void update_bullets(GameData* game) {
             }
         }
     }
-
     if (game->player.rapid_fire_cooldown > 0) {
         game->player.rapid_fire_cooldown--;
     }
 }
 
-
 void update_enemies(GameData* game) {
     for (int i = 0; i < MAX_ENEMIES; i++) {
         if (game->enemies[i].active) {
-
             switch (game->enemies[i].type) {
                 case ENTITY_SHIP:
-                    float ship_offset = sinf(game->camera_y * 0.05f) * SHIP_PATROL_WIDTH;
-                    game->enemies[i].x += ship_offset * SHIP_SPEED;
-                    if (game->enemies[i].x < 1) game->enemies[i].x = 1;
-                    if (game->enemies[i].x > MAP_WIDTH - 2) game->enemies[i].x = MAP_WIDTH - 2;
+                    game->enemies[i].x += sinf(game->camera_y * 0.05f) * SHIP_SPEED;
                     break;
 
                 case ENTITY_HELICOPTER:
-                    float helicopter_wobble = sinf(game->camera_y * 0.08f + i) * 0.05f;
+                    float helicopter_wobble = sinf(game->camera_y * 0.1f + i) * HELICOPTER_SPEED;
                     game->enemies[i].y += helicopter_wobble;
                     break;
 
-                case ENTITY_BRIDGE_PIECE:
-                    break;
-                case ENTITY_FUEL_STATION:
-                    break;
+                default: break;
             }
-
             if (game->enemies[i].y > game->camera_y + SCREEN_GRID_HEIGHT + 1) {
                 game->enemies[i].active = false;
             }
@@ -109,100 +82,88 @@ void update_enemies(GameData* game) {
     }
 }
 
-
 void handle_collisions(GameData* game) {
-    // Check bullet-enemy collisions
+    // 1. COLISÃO: TIRO x INIMIGO
     for (int i = 0; i < MAX_BULLETS; i++) {
         if (!game->bullets[i].active) continue;
 
         for (int j = 0; j < MAX_ENEMIES; j++) {
             if (!game->enemies[j].active) continue;
 
-            float bullet_x = game->bullets[i].x;
-            float bullet_y = game->bullets[i].y;
-            float enemy_x = game->enemies[j].x;
-            float enemy_y = game->enemies[j].y;
-            float enemy_width = game->enemies[j].width;
+            float bx = game->bullets[i].x;
+            float by = game->bullets[i].y;
+            float ex = game->enemies[j].x;
+            float ey = game->enemies[j].y;
+            float ew = (float)game->enemies[j].width;
 
-            if (bullet_x >= enemy_x && bullet_x < enemy_x + enemy_width &&
-                bullet_y >= enemy_y && bullet_y < enemy_y + 1) {
+            if (bx >= ex && bx < ex + ew && by >= ey && by < ey + 1) {
 
                 game->bullets[i].active = false;
                 game->enemies[j].active = false;
 
                 int score_antes = game->player.score;
-                int pontos_ganhos = 0;
-
+                int pontos = 0;
                 switch (game->enemies[j].type) {
-                    case ENTITY_SHIP:         pontos_ganhos = SHIP_POINTS; break;
-                    case ENTITY_HELICOPTER:   pontos_ganhos = HELICOPTER_POINTS; break;
-                    case ENTITY_BRIDGE_PIECE: pontos_ganhos = BRIDGE_POINTS; break;
-                    default: break;
+                    case ENTITY_SHIP:         pontos = SHIP_POINTS; break;
+                    case ENTITY_HELICOPTER:   pontos = HELICOPTER_POINTS; break;
+                    case ENTITY_BRIDGE_PIECE: pontos = BRIDGE_POINTS; break;
+                    case ENTITY_FUEL_STATION: pontos = 30; break;
                 }
 
-                if (pontos_ganhos > 0) {
-                    game->player.score += pontos_ganhos;
-                    if ((game->player.score / 1000) > (score_antes / 1000)) {
-                        game->player.lives++;
-                    }
+                game->player.score += pontos;
+                if ((game->player.score / 1000) > (score_antes / 1000)) {
+                    game->player.lives++;
                 }
             }
         }
     }
 
-    // Check player-enemy collisions
+    // 2. COLISÃO: JOGADOR x INIMIGO
+    float p_width = 0.7f;
+    float px_min = game->player.x + (1.0f - p_width) / 2.0f;
+    float px_max = px_min + p_width;
+    float py = game->player.y;
+
     for (int i = 0; i < MAX_ENEMIES; i++) {
         if (!game->enemies[i].active) continue;
 
-        float enemy_x = game->enemies[i].x;
-        float enemy_y = game->enemies[i].y;
+        float ex = game->enemies[i].x;
+        float ew = (float)game->enemies[i].width;
+        float ey = game->enemies[i].y;
 
-        if (game->player.x >= enemy_x && game->player.x < enemy_x + game->enemies[i].width &&
-            game->player.y >= enemy_y && game->player.y < enemy_y + 1) {
+        bool collision = (px_max > ex && px_min < ex + ew &&
+                          py + 0.8f > ey && py < ey + 1.0f);
 
+        if (collision) {
             if (game->enemies[i].type == ENTITY_FUEL_STATION) {
-                game->player.fuel = (game->player.fuel + FUEL_RECHARGE_AMOUNT > 200) ? 200 : game->player.fuel + FUEL_RECHARGE_AMOUNT;
+                // Coleta Power-Up
+                game->player.fuel += FUEL_RECHARGE_AMOUNT;
+                if (game->player.fuel > 100.0f) game->player.fuel = 100.0f;
                 game->enemies[i].active = false;
-            } else if (game->enemies[i].type == ENTITY_SHIP ||
-                       game->enemies[i].type == ENTITY_HELICOPTER ||
-                       game->enemies[i].type == ENTITY_BRIDGE_PIECE) {
-
+            } else {
                 game->player.lives--;
                 if (game->player.lives <= 0) {
                     game->state = STATE_GAME_OVER;
+                    game->trigger_music_stop = true;
+                    game->trigger_gameover_sound = true;
                 } else {
                     reset_level(game);
-                    game->player.fuel = 100;
+                    game->player.fuel = 100.0f;
                 }
             }
         }
     }
 
-    // Check player-terrain collisions
-    if (is_terrain(game, game->player.x, game->player.y)) {
+    // 3. COLISÃO: JOGADOR x TERRENO
+    if (is_terrain(game, px_min, game->player.y) || is_terrain(game, px_max, game->player.y)) {
         game->player.lives--;
         if (game->player.lives <= 0) {
             game->state = STATE_GAME_OVER;
+            game->trigger_music_stop = true;
+            game->trigger_gameover_sound = true;
         } else {
             reset_level(game);
-            game->player.fuel = 100;
-        }
-    }
-}
-
-
-void shoot_bullet(GameData* game) {
-    if (game->player.rapid_fire_cooldown > 0) {
-        return;
-    }
-
-    for (int i = 0; i < MAX_BULLETS; i++) {
-        if (!game->bullets[i].active) {
-            game->bullets[i].x = game->player.x;
-            game->bullets[i].y = game->player.y - 1;
-            game->bullets[i].active = true;
-            game->player.rapid_fire_cooldown = MAX_RAPID_FIRE_COOLDOWN;
-            break;
+            game->player.fuel = 100.0f;
         }
     }
 }

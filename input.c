@@ -1,13 +1,10 @@
-/*
- * Input Handling
- */
-
 #include "game.h"
 
 void handle_input(GameData* game) {
     if (IsKeyPressed(KEY_ESCAPE)) {
         if (game->state == STATE_PLAYING) {
             game->state = STATE_MENU;
+            game->trigger_music_stop = true; // Para a música ao voltar pro menu
         } else if (game->state == STATE_MENU) {
             exit(0);
         }
@@ -21,9 +18,7 @@ void handle_input(GameData* game) {
             handle_gameplay_input(game);
             break;
         case STATE_PAUSED:
-            if (IsKeyPressed(KEY_ENTER)) {
-                game->paused = 0;
-            }
+            if (IsKeyPressed(KEY_ENTER)) game->paused = 0;
             break;
         case STATE_GAME_OVER:
             if (IsKeyPressed(KEY_ENTER)) {
@@ -52,14 +47,8 @@ void handle_input(GameData* game) {
                     game->current_name[game->name_length] = '\0';
                 }
                 if (IsKeyPressed(KEY_ENTER)) {
-                    if (game->name_length == 0) {
-                        strcpy(game->current_name, "ANON");
-                    }
+                    if (game->name_length == 0) strcpy(game->current_name, "ANON");
                     add_highscore(game, game->current_name, game->player.score);
-                    game->state = STATE_MENU;
-                    game->menu_selected = 0;
-                }
-                if (IsKeyPressed(KEY_ESCAPE)) {
                     game->state = STATE_MENU;
                     game->menu_selected = 0;
                 }
@@ -76,64 +65,67 @@ void handle_input(GameData* game) {
                 game->state = STATE_MENU;
                 game->menu_selected = 0;
                 game->current_phase = 1;
-                initialize_game(game); // Reinicializa tudo
+                initialize_game(game);
             }
             break;
-        default:
-            break;
+        default: break;
     }
 }
 
 void handle_menu_input(GameData* game) {
     if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)) {
         game->menu_selected--;
-        if (game->menu_selected < 0) {
-            game->menu_selected = 1;
-        }
+        if (game->menu_selected < 0) game->menu_selected = 1;
     }
     if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) {
         game->menu_selected++;
-        if (game->menu_selected > 1) {
-            game->menu_selected = 0;
-        }
+        if (game->menu_selected > 1) game->menu_selected = 0;
     }
     if (IsKeyPressed(KEY_ENTER)) {
         if (game->menu_selected == 0) {
-            // Start game
+            // --- MUDANÇA: INICIA O JOGO E A MÚSICA ---
             game->state = STATE_PLAYING;
             game->current_phase = 1;
             game->player.score = 0;
             game->player.lives = 3;
-            game->player.fuel = 100;
-            reset_level(game); // <-- Chama o reset_level do auto-scroll
+            game->player.fuel = 100.0f;
+            game->trigger_music_start = true; // <--- SINAL DE START
+            reset_level(game);
         } else if (game->menu_selected == 1) {
-            // Quit
             exit(0);
         }
     }
 }
 
 void handle_gameplay_input(GameData* game) {
-    if (IsKeyPressed(KEY_ENTER)) {
-        game->paused = !game->paused;
-    }
+    if (IsKeyPressed(KEY_ENTER)) game->paused = !game->paused;
 
-    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) {
-        // <-- MUDANÇA (AUTO-SCROLL): Usa nova constante
-        game->player.x -= PLAYER_HORZ_SPEED;
-    }
+    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) game->player.x -= PLAYER_HORZ_SPEED;
+    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) game->player.x += PLAYER_HORZ_SPEED;
 
-    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) {
-        // <-- MUDANÇA (AUTO-SCROLL): Usa nova constante
-        game->player.x += PLAYER_HORZ_SPEED;
-    }
+    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) game->current_scroll_speed = SCROLL_SPEED_FAST;
+    else if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)) game->current_scroll_speed = SCROLL_SPEED_SLOW;
+    else game->current_scroll_speed = SCROLL_SPEED_NORMAL;
 
-    if (IsKeyPressed(KEY_K) || IsKeyPressed(KEY_SPACE)) {
-        shoot_bullet(game);
-    }
+    if (IsKeyPressed(KEY_K) || IsKeyPressed(KEY_SPACE)) shoot_bullet(game);
 
     if (IsKeyPressed(KEY_R)) {
         reset_level(game);
-        game->player.fuel = 100;
+        game->player.fuel = 100.0f;
+    }
+}
+
+void shoot_bullet(GameData* game) {
+    if (game->player.rapid_fire_cooldown > 0) return;
+
+    for (int i = 0; i < MAX_BULLETS; i++) {
+        if (!game->bullets[i].active) {
+            game->bullets[i].x = game->player.x;
+            game->bullets[i].y = game->player.y - 1;
+            game->bullets[i].active = true;
+            game->player.rapid_fire_cooldown = MAX_RAPID_FIRE_COOLDOWN;
+            game->trigger_shoot_sound = true;
+            break;
+        }
     }
 }

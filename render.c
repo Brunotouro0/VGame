@@ -1,5 +1,4 @@
 #include "game.h"
-#include <stdio.h>
 
 float get_screen_y(GameData* game, float map_y) {
     return (map_y - game->camera_y) * CELL_SIZE;
@@ -7,10 +6,10 @@ float get_screen_y(GameData* game, float map_y) {
 
 void render_game(GameData* game) {
     BeginDrawing();
-    ClearBackground(DARKBLUE); // A cor do rio
+    ClearBackground(DARKBLUE); //Define tudo o que ele nao ler e interpretar no arquivo txt como a cor azul (rio)
 
     switch (game->state) {
-        case STATE_MENU: render_menu(game); break;
+        case STATE_MENU: render_menu(game); break; //se o "estado do jogo" for o menu, ele renderiza a tela do menu com a funcao render_menu
         case STATE_PLAYING:
         case STATE_PAUSED:
             render_map(game);
@@ -33,9 +32,9 @@ void render_game(GameData* game) {
 }
 
 void render_menu(GameData* game) {
-    // Menu simples (texto)
+    // Gera o Menu
     DrawText("RIVER-INF", SCREEN_WIDTH/2 - 165, 80, 60, YELLOW);
-    Color option1_color = (game->menu_selected == 0) ? YELLOW : WHITE;
+    Color option1_color = (game->menu_selected == 0) ? YELLOW : WHITE; // ? é um if/else em uma linha só: se o game->menu_selected for 0, desenha em amraleo, se nao, desenha em branco
     Color option2_color = (game->menu_selected == 1) ? YELLOW : WHITE;
     DrawText("NOVO JOGO", SCREEN_WIDTH/2 - 80, 300, 30, option1_color);
     DrawText("SAIR", SCREEN_WIDTH/2 - 50, 360, 30, option2_color);
@@ -43,32 +42,32 @@ void render_menu(GameData* game) {
     DrawText("RECORDES:", 50, 150, 25, LIGHTGRAY);
     for (int i = 0; i < game->num_highscores && i < 10; i++) {
         char score_text[64];
-        sprintf(score_text, "%d. %s - %d", i+1, game->highscores[i].name, game->highscores[i].score);
-        DrawText(score_text, 50, 180 + i*30, 16, WHITE);
+        sprintf(score_text, "%d. %s - %d", i+1, game->highscores[i].name, game->highscores[i].score); //sprintf é usado pra formatar melhor o texto, aqui ele ta mudando o array "score text" na propria memoria pra ser daquela forma
+        DrawText(score_text, 50, 180 + i*30, 16, WHITE); //depois que o array é mudado na memoria, "drawtext" desenha ele na tela, ai fica melhor de visualizar
     }
     DrawText("Use W/S para selecionar. Use ENTER para confirmar.", SCREEN_WIDTH/2 - 200, SCREEN_HEIGHT - 40, 14, GRAY);
 }
 
 void render_hud(GameData* game) {
     char hud_text[128];
-    sprintf(hud_text, "PONTUACAO: %d", game->player.score);
+    sprintf(hud_text, "PONTUACAO: %d", game->player.score); //aqui ele faz a mesma coisa, sprintf muda o array hud_text para conter a pontuacao do player (contida em came->player.score) e depois printa na tela
     DrawText(hud_text, 10, 10, 20, YELLOW);
 
-    sprintf(hud_text, "COMBUSTIVEL: %d", (int)game->player.fuel);
+    sprintf(hud_text, "COMBUSTIVEL: %d", (int)game->player.fuel); //mesma coisa
     Color fuelColor = (game->player.fuel < 30.0f) ? RED : LIME;
     DrawText(hud_text, SCREEN_WIDTH/2 - 50, 10, 20, fuelColor);
 
     DrawRectangleLines(SCREEN_WIDTH/2 - 52, 35, 104, 8, WHITE);
     DrawRectangle(SCREEN_WIDTH/2 - 50, 37, (int)game->player.fuel, 4, fuelColor);
 
-    sprintf(hud_text, "VIDAS: %d", game->player.lives);
+    sprintf(hud_text, "VIDAS: %d", game->player.lives); //mesma coisa
     DrawText(hud_text, SCREEN_WIDTH - 150, 10, 20, RED);
 
-    sprintf(hud_text, "FASE: %d", game->current_phase);
+    sprintf(hud_text, "FASE: %d", game->current_phase); //mesma coisa
     DrawText(hud_text, SCREEN_WIDTH/2 - 50, SCREEN_HEIGHT - 30, 16, WHITE);
 }
 
-void render_map(GameData* game) {
+void render_map(GameData* game) { //aqui ele vai lendo o mapa no arquivo txt e interpreta o que cada caractere significa, comecando sempre do ponto onde o player comeca até o final superior do mapa, mesmo que depois da linha de chegada
     int y_start = (int)game->camera_y;
     int y_end = y_start + SCREEN_GRID_HEIGHT + 1;
 
@@ -79,17 +78,15 @@ void render_map(GameData* game) {
             int px = x * CELL_SIZE;
             int py = (int)get_screen_y(game, (float)y);
 
-            // DESENHO DO TERRENO (Verde)
+            //DESENHO DO TERRENO (Verde)
             if (cell == 'T') {
                 DrawRectangle(px, py, CELL_SIZE, CELL_SIZE, DARKGREEN);
-                // Opcional: desenhar borda para ficar bonito
+                //Opcional: desenhar borda pra ficar bonitinho
                 DrawRectangleLines(px, py, CELL_SIZE, CELL_SIZE, (Color){0, 80, 0, 255});
             }
             // DESENHO DO COMBUSTÍVEL NO MAPA ('G')
-            // Nota: Os inimigos móveis são desenhados em render_enemies,
-            // mas o mapa estático pode conter referências.
-            // Como criamos objetos Enemy para o 'G', não precisamos desenhar aqui
-            // a menos que seja um 'G' que não virou inimigo (o que não deve acontecer).
+            // Nota: Os inimigos móveis são desenhados em render_enemies, mas o mapa estático pode conter referências.
+            // Como criamos objetos Enemy para o 'G', não precisamos desenhar aqui a menos que seja um 'G' que não virou inimigo (o que não deve acontecer).
 
             else if (cell == 'L') {
                 DrawRectangle(px, py, CELL_SIZE, CELL_SIZE, WHITE);
@@ -121,12 +118,14 @@ void render_player(GameData* game) {
 
 void render_enemies(GameData* game) {
     for (int i = 0; i < MAX_ENEMIES; i++) {
-        if (!game->enemies[i].active) continue;
+        if (!game->enemies[i].active) //verifica se o inimigo ta ativo
+            continue; //o continue passa pra próxima iteração do loop
 
         int ex = (int)(game->enemies[i].x * CELL_SIZE);
         int ey = (int)get_screen_y(game, game->enemies[i].y);
 
-        if (ey < -CELL_SIZE || ey > SCREEN_HEIGHT) continue;
+        if (ey < -CELL_SIZE || ey > SCREEN_HEIGHT) //verifica se ta fora da tela
+            continue;
 
         Texture2D* texToDraw = NULL;
 
@@ -147,12 +146,12 @@ void render_enemies(GameData* game) {
 
         if (texToDraw && texToDraw->id > 0) {
              Rectangle sourceRec = { 0.0f, 0.0f, (float)texToDraw->width, (float)texToDraw->height };
-             // Inimigos podem ter largura > 1 (como o posto de gasolina)
+             // Inimigos podem ter largura > 1 (tipo o posto de gasolina)
              float width = (float)CELL_SIZE * game->enemies[i].width;
              Rectangle destRec = { (float)ex, (float)ey, width, (float)CELL_SIZE };
              DrawTexturePro(*texToDraw, sourceRec, destRec, (Vector2){0,0}, 0.0f, WHITE);
         } else {
-            // Fallback: Desenhar retângulos coloridos se a imagem falhar
+            //Se nao conseguir abrir a imagem, desenha retangulos coloridos
             Color c = RED;
             if (game->enemies[i].type == ENTITY_FUEL_STATION) c = ORANGE;
             if (game->enemies[i].type == ENTITY_BRIDGE_PIECE) c = DARKGRAY;
@@ -170,8 +169,8 @@ void render_bullets(GameData* game) {
         if (by < 0 || by > SCREEN_HEIGHT) continue;
 
         if (game->texBullet.id > 0) {
-            // Centraliza o tiro
-            int offset = (CELL_SIZE - 10) / 2; // Assumindo tiro visual pequeno
+            //Centraliza o tiro
+            int offset = (CELL_SIZE - 10) / 2;
             DrawTexturePro(game->texBullet,
                            (Rectangle){0,0, (float)game->texBullet.width, (float)game->texBullet.height},
                            (Rectangle){(float)bx + offset, (float)by + offset, 10, 10},

@@ -6,18 +6,12 @@ void load_phase(GameData* game, int phase_num) {
 
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
-        printf("Error: Could not load phase file %s\n", filename);
-        for (int i = 0; i < PHASE_HEIGHT; i++) {
-            memset(game->map[i], ' ', MAP_WIDTH);
-            game->map[i][MAP_WIDTH] = '\0';
-        }
-        game->current_phase_height = 20;
+        printf("Erro ao abrir o arquivo de mapa %s\n", filename);
         return;
     }
 
     int i = 0;
     while (i < PHASE_HEIGHT && fgets(game->map[i], MAP_WIDTH + 2, file) != NULL) {
-        game->map[i][strcspn(game->map[i], "\n")] = '\0';
         i++;
     }
     game->current_phase_height = i;
@@ -46,10 +40,10 @@ void load_phase(GameData* game, int phase_num) {
                 game->enemies[enemy_count].y = (float)y;
                 game->enemies[enemy_count].active = true;
 
-                if (cell == 'N') game->enemies[enemy_count].type = ENTITY_SHIP;
-                else if (cell == 'X') game->enemies[enemy_count].type = ENTITY_HELICOPTER;
-                else if (cell == 'P') game->enemies[enemy_count].type = ENTITY_BRIDGE_PIECE;
-                else if (cell == 'G') {
+                if (cell == 'N') game->enemies[enemy_count].type = ENTITY_SHIP; //le caractere N como um navio e do tipo ENTITY_SHIP
+                else if (cell == 'X') game->enemies[enemy_count].type = ENTITY_HELICOPTER; //le caractere X como um helicoptero e do tipo ENTITY_HELICOPTER
+                else if (cell == 'P') game->enemies[enemy_count].type = ENTITY_BRIDGE_PIECE; //le caractere P como uma ponte e do tipo ENTITY_BRIDGE_PIECE
+                else if (cell == 'G') { //le caractere G como uma gasolina e do tipo ENTITY_FUEL_STATION
                     game->enemies[enemy_count].type = ENTITY_FUEL_STATION;
                     int w = 0;
                     while (x + w < MAP_WIDTH && game->map[y][x + w] == 'G') w++;
@@ -57,7 +51,7 @@ void load_phase(GameData* game, int phase_num) {
                     x += w - 1;
                 }
                 if (cell != 'G') game->enemies[enemy_count].width = 1;
-                enemy_count++;
+                enemy_count++; //conta quantos inimigos tem na tela
             }
         }
     }
@@ -78,7 +72,8 @@ bool load_highscores(GameData* game) {
 
 void save_highscores(GameData* game) {
     FILE* file = fopen("highscore.bin", "wb");
-    if (file == NULL) return;
+    if (file == NULL)
+        return;
     fwrite(&game->num_highscores, sizeof(int), 1, file);
     fwrite(game->highscores, sizeof(HighScore), game->num_highscores, file);
     fclose(file);
@@ -97,12 +92,12 @@ void initialize_game(GameData* game) {
     game->current_name[0] = '\0';
     game->current_scroll_speed = SCROLL_SPEED_NORMAL;
 
-    // --- FLAGS INICIAIS ---
+    //FLAGS INICIAIS
     game->trigger_shoot_sound = false;
     game->trigger_music_start = false;
     game->trigger_music_stop = false;
     game->trigger_gameover_sound = false;
-    game->trigger_gamewon_sound = false; // --- NOVO: Inicializa como false ---
+    game->trigger_gamewon_sound = false;
 
     for (int i = 0; i < MAX_BULLETS; i++) game->bullets[i].active = false;
     load_highscores(game);
@@ -129,9 +124,6 @@ void reset_level(GameData* game) {
     }
 }
 
-bool is_walkable(GameData* game, float x, float y) {
-    return !is_terrain(game, x, y);
-}
 
 bool is_terrain(GameData* game, float x, float y) {
     int ix = (int)x;

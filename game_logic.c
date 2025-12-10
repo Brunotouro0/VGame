@@ -4,7 +4,7 @@ void update_game(GameData* game) {
     if (game->state == STATE_PLAYING) {
         if (!game->paused) {
 
-            // Scroll controlado pela velocidade
+            //Scroll controlado pela velocidade
             game->camera_y -= game->current_scroll_speed;
 
             update_player(game);
@@ -28,7 +28,7 @@ void update_game(GameData* game) {
                 if (game->current_phase == MAX_PHASES) {
                     game->state = STATE_GAME_WON;
                     game->trigger_music_stop = true;
-                    game->trigger_gamewon_sound = true; // --- NOVO: Ativa o som da vit�ria ---
+                    game->trigger_gamewon_sound = true;
                 } else {
                     game->current_phase++;
                     game->state = STATE_LEVEL_COMPLETE;
@@ -83,23 +83,25 @@ void update_enemies(GameData* game) {
 }
 
 void handle_collisions(GameData* game) {
-    // 1. COLIS�O: TIRO x INIMIGO
+
+    //1.COLISÃO: TIRO x INIMIGO
+
     for (int i = 0; i < MAX_BULLETS; i++) {
         if (!game->bullets[i].active) continue;
 
         for (int j = 0; j < MAX_ENEMIES; j++) {
             if (!game->enemies[j].active) continue;
 
-            float bx = game->bullets[i].x;
-            float by = game->bullets[i].y;
-            float ex = game->enemies[j].x;
-            float ey = game->enemies[j].y;
-            float ew = (float)game->enemies[j].width;
+            float bx = game->bullets[i].x; //o x da bala que foi disparada
+            float by = game->bullets[i].y; //o y da bala que foi disparada
+            float ex = game->enemies[j].x; // o x do inimigo que estamos lidando
+            float ey = game->enemies[j].y; // o y do inimigo que estamos lidando
+            float ew = (float)game->enemies[j].width; // a largura do inimigo que estamos lidando
 
-            if (bx >= ex && bx < ex + ew && by >= ey && by < ey + 1) {
+            if (bx >= ex && bx < ex + ew && by >= ey && by < ey + 1) { //esse if verifica se a bala esta ocupando a mesma posicao que o inimigo, se sim entao colide
 
-                game->bullets[i].active = false;
-                game->enemies[j].active = false;
+                game->bullets[i].active = false; //se a colisao ocorre, a bala é desativada
+                game->enemies[j].active = false; //se a colisao ocorre, o inimigo é desativado
 
                 int score_antes = game->player.score;
                 int pontos = 0;
@@ -118,8 +120,8 @@ void handle_collisions(GameData* game) {
         }
     }
 
-    // 2. COLIS�O: JOGADOR x INIMIGO
-    float p_width = 0.7f;
+    //2.COLISÃO: JOGADOR x INIMIGO
+    float p_width = 0.7f; //define o quão largo é o cara que ta jogando
     float px_min = game->player.x + (1.0f - p_width) / 2.0f;
     float px_max = px_min + p_width;
     float py = game->player.y;
@@ -127,16 +129,15 @@ void handle_collisions(GameData* game) {
     for (int i = 0; i < MAX_ENEMIES; i++) {
         if (!game->enemies[i].active) continue;
 
-        float ex = game->enemies[i].x;
-        float ew = (float)game->enemies[i].width;
-        float ey = game->enemies[i].y;
+        float ex = game->enemies[i].x; // x do inimigo que estamos lidando
+        float ew = (float)game->enemies[i].width; // largura do inimigo que estamos lidando
+        float ey = game->enemies[i].y; // y do inimigo que estamos lidando
 
-        bool collision = (px_max > ex && px_min < ex + ew &&
-                          py + 0.8f > ey && py < ey + 1.0f);
+        bool collision = (px_max > ex && px_min < ex + ew && py + 0.8f > ey && py < ey + 1.0f); //ver se o inimigo esta dentro do player 😳
 
         if (collision) {
             if (game->enemies[i].type == ENTITY_FUEL_STATION) {
-                // Coleta Power-Up
+                //Coleta a gasolina
                 game->player.fuel += FUEL_RECHARGE_AMOUNT;
                 if (game->player.fuel > 100.0f) game->player.fuel = 100.0f;
                 game->enemies[i].active = false;
@@ -154,7 +155,7 @@ void handle_collisions(GameData* game) {
         }
     }
 
-    // 3. COLIS�O: JOGADOR x TERRENO
+    // 3. COLISÃO: JOGADOR x TERRENO
     if (is_terrain(game, px_min, game->player.y) || is_terrain(game, px_max, game->player.y)) {
         game->player.lives--;
         if (game->player.lives <= 0) {

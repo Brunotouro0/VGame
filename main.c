@@ -5,19 +5,17 @@ int main(void) {
 
     InitAudioDevice();
 
-    // --- CARREGAMENTO E VERIFICAÇÃO DE ÁUDIO ---
-
-    // 1. Música de Fundo
+    // 1.Musica de fundo
     Music musicaFundo = LoadMusicStream("recursos/musicaFundo.mp3");
 
-    // 2. Som de Tiro
+    // 2.Som do tiro
     Sound somTiro = LoadSound("recursos/tiro.wav");
 
-    // 3. Som de Game Over
-    Sound somGameOver = LoadSound("recursos/somGameOver.mp3"); // Use .mp3 se tiver convertido
+    // 3.Som de Game Over
+    Sound somGameOver = LoadSound("recursos/somGameOver.mp3");
 
-    // 4. Som de Vitória (NOVO)
-    Sound somGameWon = LoadSound("recursos/somGameWon.mp3"); // Certifique-se de ter este arquivo
+    // 4.Som de Vitoria
+    Sound somGameWon = LoadSound("recursos/somGameWon.mp3");
 
     // Ajuste de Volume
     SetMusicVolume(musicaFundo, 0.2f);
@@ -29,7 +27,7 @@ int main(void) {
 
     GameData game;
 
-    // --- CARREGAMENTO DE SPRITES ---
+    //CARREGAMENTO DE SPRITES
     game.texPlayer = LoadTexture("recursos/aviao.png");
     game.texShip   = LoadTexture("recursos/navio.png");
     game.texHeli   = LoadTexture("recursos/helicoptero.png");
@@ -41,7 +39,7 @@ int main(void) {
 
     while (!WindowShouldClose()) {
 
-        // --- GERENCIAMENTO DE ÁUDIO POR FLAGS ---
+        //GERENCIAMENTO DE ÁUDIO POR FLAGS
         if (game.trigger_music_start) {
             StopMusicStream(musicaFundo);
             PlayMusicStream(musicaFundo);
@@ -53,13 +51,13 @@ int main(void) {
             game.trigger_music_stop = false;
         }
 
-        // Tocar som de Game Over
+        //Tocar som de Game Over
         if (game.trigger_gameover_sound) {
             PlaySound(somGameOver);
             game.trigger_gameover_sound = false;
         }
 
-        // --- NOVO: Tocar som de Vitória ---
+        //Tocar som de Vitoria
         if (game.trigger_gamewon_sound) {
             PlaySound(somGameWon);
             game.trigger_gamewon_sound = false;
@@ -69,7 +67,7 @@ int main(void) {
             UpdateMusicStream(musicaFundo);
         }
 
-        // --- LOOP DO JOGO ---
+        //LOOP DO JOGO
         handle_input(&game);
         update_game(&game);
 
@@ -81,7 +79,6 @@ int main(void) {
         render_game(&game);
     }
 
-    // --- LIMPEZA DE MEMÓRIA (Unload) ---
     UnloadTexture(game.texPlayer);
     UnloadTexture(game.texShip);
     UnloadTexture(game.texHeli);
@@ -92,7 +89,7 @@ int main(void) {
     UnloadMusicStream(musicaFundo);
     UnloadSound(somTiro);
     UnloadSound(somGameOver);
-    UnloadSound(somGameWon); // --- NOVO: Descarregar som ---
+    UnloadSound(somGameWon);
 
     CloseAudioDevice();
     CloseWindow();

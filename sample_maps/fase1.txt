@@ -291,7 +291,7 @@ TTTTTTT              TTT
 TTTTTT                TT
 TTTTT                  T
 TTTT                   T
-TTT   N              TTT
+TTT   NN             TTT
 TTT             N   TTTT
 TTTT              TTTTTT
 TTTTT            TTTTTTT

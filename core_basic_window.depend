@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1765292792 source:c:\users\pichau\documents\github\vgame\game_logic.c
+1765330907 source:c:\users\pichau\documents\github\vgame\game_logic.c
 	"game.h"
 
-1765292792 c:\users\pichau\documents\github\vgame\game.h
+1765370649 c:\users\pichau\documents\github\vgame\game.h
 	<raylib.h>
 	<stdlib.h>
 	<string.h>
@@ -10,16 +10,15 @@
 	<stdbool.h>
 	<math.h>
 
-1765140543 source:c:\users\pichau\documents\github\vgame\input.c
+1765331869 source:c:\users\pichau\documents\github\vgame\input.c
 	"game.h"
 
-1765293071 source:c:\users\pichau\documents\github\vgame\main.c
+1765329855 source:c:\users\pichau\documents\github\vgame\main.c
 	"game.h"
 
-1765292792 source:c:\users\pichau\documents\github\vgame\map_loader.c
+1765333113 source:c:\users\pichau\documents\github\vgame\map_loader.c
 	"game.h"
 
-1765144749 source:c:\users\pichau\documents\github\vgame\render.c
+1765370649 source:c:\users\pichau\documents\github\vgame\render.c
 	"game.h"
-	<stdio.h>
 
